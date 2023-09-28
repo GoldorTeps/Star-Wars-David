@@ -20,15 +20,15 @@ export const Navbar = () => {
       <ul className="dropdown-menu">
         {store.favorites.map((favorite, index) => (
           <li key={index}>
-            <h2>
+            <p>
               {favorite}
               <button
                 className="btn btn-link text-danger"
                 onClick={() => handleDelete(index)}
               >
-                <i className="bi bi-trash" title="Eliminar favorito"></i>
+                <i className="bi bi-trash text-danger" title="Eliminar favorito"></i>
               </button>
-            </h2>
+            </p>
           </li>
         ))}
       </ul>
@@ -61,7 +61,7 @@ export const Navbar = () => {
             </li>
             <li className="nav-item dropdown">
               <a
-                className="nav-link dropdown-toggle"
+                className="nav-link dropdown-toggle navbar-text" // Agregar la clase "navbar-text" aquí
                 href="#"
                 role="button"
                 data-bs-toggle="dropdown"

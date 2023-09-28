@@ -1,43 +1,69 @@
-import React, { useState, useEffect, useContext } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useEffect } from "react";
+import People from "../component/people";
+import Planets from "../component/planets";
+import Vehicles from "../component/vehicles";
+import { Context } from '../store/appContext';
 
-import { Context } from "../store/appContext";
 
-import "../../styles/demo.css";
+import "../../styles/home.css";
 
-export const Demo = () => {
-	const { store, actions } = useContext(Context);
+const Home = () => {
 
-	return (
-		<div className="container">
-			<ul className="list-group">
-				{store.demo.map((item, index) => {
-					return (
-						<li
-							key={index}
-							className="list-group-item d-flex justify-content-between"
-							style={{ background: item.background }}>
-							<Link to={"/single/" + index}>
-								<span>Link to: {item.title}</span>
-							</Link>
-							{// Conditional render example
-							// Check to see if the background is orange, if so, display the message
-							item.background === "orange" ? (
-								<p style={{ color: item.initial }}>
-									Check store/flux.js scroll to the actions to see the code
-								</p>
-							) : null}
-							<button className="btn btn-success" onClick={() => actions.changeColor(index, "orange")}>
-								Change Color
-							</button>
-						</li>
-					);
-				})}
-			</ul>
-			<br />
-			<Link to="/">
-				<button className="btn btn-primary">Back home</button>
-			</Link>
-		</div>
-	);
+    const { actions, store } = useContext(Context)
+
+    useEffect(() => {
+        actions.getDataPeople();
+        actions.getDataPlanets();
+        actions.getDataVehicles();
+
+    }, []);
+
+
+    const handleDelete = (index) => {
+        actions.deleteFavorite(index);
+    };
+
+
+    return (
+        <div className="text-center mb-4 mx-auto" style={{marginTop: "8rem"}}>
+
+            <h1>Characters</h1>
+
+            <div className="d-flex lista mb-4">
+                {store.char.map((char, index) => (
+                    <People
+                        key={index}
+                        index={index}
+                        char={char}
+                    />
+                ))}
+            </div>
+
+
+            <h1>Planets</h1>
+            <div className="d-flex lista mb-4">
+                {store.planet.map((planet, index) => (
+                    <Planets
+                        key={index}
+                        index={index}
+                        planet={planet}
+                    />
+                ))}
+            </div>
+
+            <h1>Ships</h1>
+            <div className="d-flex lista mb-4">
+                {store.vehicle.map((vehicle, index) => (
+                    <Vehicles
+                        key={index}
+                        index={index}
+                        vehicle={vehicle}
+                    />
+                ))}
+            </div>
+
+        </div>
+    );
 };
+
+export default Home;
